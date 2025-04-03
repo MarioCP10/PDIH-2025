@@ -1,7 +1,7 @@
 /**
  * @file    hello.c
  * @author  Mario Casas
- * @date    26 March 2025
+ * @date    25 March 2025
  * @version 0.1
  * @brief   An introductory loadable kernel module (LKM).
  * @see     http://www.derekmolloy.ie/ for a full description
