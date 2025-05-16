@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reconocimiento de voz</title>
+</head>
+
+<body>
+    <h1>Reconocimiento de voz con Web Speech API</h1>
+    <button id="start-btn">Iniciar reconocimiento</button>
+    <p id="status">Pulsa el botón para hablar.</p>
+    <p><strong>Texto reconocido:</strong> <span id="result"></span></p>
+
+    <script>
+        //Verificamos soporte
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            document.getElementById('status').textContent = 'Tu navegador no soporta SpeechRecognition.';
+            throw new Error('API no soportada');
+        }
+
+        const recog = new SpeechRecognition();
+        recog.lang = 'es-ES';
+        recog.interimResults = false;
+        recog.maxAlternatives = 1;
+
+        //Elementos UI
+        const btn = document.getElementById('start-btn');
+        const status = document.getElementById('status');
+        const result = document.getElementById('result');
+
+        btn.addEventListener('click', () => {
+            recog.start();
+            status.textContent = 'Escuchando…';
+        });
+
+        recog.addEventListener('result', (e) => {
+            const transcript = e.results[0][0].transcript;
+            result.textContent = transcript;
+            status.textContent = '¡He terminado!';
+        });
+
+        recog.addEventListener('speechend', () => {
+            recog.stop();
+        });
+
+        recog.addEventListener('error', (e) => {
+            status.textContent = 'Error: ' + e.error;
+        });
+    </script>
+</body>
+
+</html>
